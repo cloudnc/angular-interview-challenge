@@ -8,7 +8,7 @@ collections without valid credentials.
 
 ## Details
 * The following components should be protected
-(these are components that currenly have routes)
+(these are components that currently have routes)
   * `CollectionPageComponent` - as this is currently the root route (`path: ''`)
   it should be moved to `/collection`
   * `FindBookPageComponent`
@@ -45,5 +45,5 @@ result in the user still being logged in
 redirected AND successfully log in, they should be redirected back to
 the page that they were first attempting to visit
 
-# Bonus! (if time allows)
+## Bonus! (if time allows)
 * Write tests for the service/guard/reducer/component
