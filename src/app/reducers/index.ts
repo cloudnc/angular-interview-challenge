@@ -1,8 +1,15 @@
 import { createSelector } from 'reselect';
-import { ActionReducer } from '@ngrx/store';
+/**
+ * combineReducers is another useful metareducer that takes a map of reducer
+ * functions and creates a new reducer that gathers the values
+ * of each reducer and stores them using the reducer's key. Think of it
+ * almost like a database, where every reducer is a table in the db.
+ *
+ * More: https://egghead.io/lessons/javascript-redux-implementing-combinereducers-from-scratch
+ */
+import { ActionReducer, combineReducers } from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
 import { environment } from '../../environments/environment';
-
 /**
  * The compose function is one of our most handy tools. In basic terms, you give
  * it any number of functions and it returns a function. This new function
@@ -12,25 +19,12 @@ import { environment } from '../../environments/environment';
  * More: https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html
  */
 import { compose } from '@ngrx/core/compose';
-
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
  * exception will be thrown. This is useful during development mode to
  * ensure that none of the reducers accidentally mutates the state.
  */
 import { storeFreeze } from 'ngrx-store-freeze';
-
-/**
- * combineReducers is another useful metareducer that takes a map of reducer
- * functions and creates a new reducer that gathers the values
- * of each reducer and stores them using the reducer's key. Think of it
- * almost like a database, where every reducer is a table in the db.
- *
- * More: https://egghead.io/lessons/javascript-redux-implementing-combinereducers-from-scratch
- */
-import { combineReducers } from '@ngrx/store';
-
-
 /**
  * Every reducer module's default export is the reducer function itself. In
  * addition, each module should export a type or interface that describes
@@ -41,7 +35,6 @@ import * as fromSearch from './search';
 import * as fromBooks from './books';
 import * as fromCollection from './collection';
 import * as fromLayout from './layout';
-
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -54,7 +47,6 @@ export interface State {
   layout: fromLayout.State;
   router: fromRouter.RouterState;
 }
-
 
 /**
  * Because metareducers take a reducer function and return a new reducer,
@@ -81,7 +73,6 @@ export function reducer(state: any, action: any) {
     return developmentReducer(state, action);
   }
 }
-
 
 /**
  * A selector function is a map function factory. We pass it parameters and it
@@ -110,11 +101,10 @@ export const getBooksState = (state: State) => state.books;
  * The created selectors can also be composed together to select different
  * pieces of state.
  */
- export const getBookEntities = createSelector(getBooksState, fromBooks.getEntities);
- export const getBookIds = createSelector(getBooksState, fromBooks.getIds);
- export const getSelectedBookId = createSelector(getBooksState, fromBooks.getSelectedId);
- export const getSelectedBook = createSelector(getBooksState, fromBooks.getSelected);
-
+export const getBookEntities = createSelector(getBooksState, fromBooks.getEntities);
+export const getBookIds = createSelector(getBooksState, fromBooks.getIds);
+export const getSelectedBookId = createSelector(getBooksState, fromBooks.getSelectedId);
+export const getSelectedBook = createSelector(getBooksState, fromBooks.getSelected);
 
 /**
  * Just like with the books selectors, we also have to compose the search
@@ -126,7 +116,6 @@ export const getSearchBookIds = createSelector(getSearchState, fromSearch.getIds
 export const getSearchQuery = createSelector(getSearchState, fromSearch.getQuery);
 export const getSearchLoading = createSelector(getSearchState, fromSearch.getLoading);
 
-
 /**
  * Some selector functions create joins across parts of state. This selector
  * composes the search result IDs to return an array of books in the store.
@@ -134,8 +123,6 @@ export const getSearchLoading = createSelector(getSearchState, fromSearch.getLoa
 export const getSearchResults = createSelector(getBookEntities, getSearchBookIds, (books, searchIds) => {
   return searchIds.map(id => books[id]);
 });
-
-
 
 export const getCollectionState = (state: State) => state.collection;
 

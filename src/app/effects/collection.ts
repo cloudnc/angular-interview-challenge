@@ -6,7 +6,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/toArray';
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Database } from '@ngrx/db';
 import { Observable } from 'rxjs/Observable';
 import { defer } from 'rxjs/observable/defer';
@@ -14,7 +14,6 @@ import { of } from 'rxjs/observable/of';
 
 import * as collection from '../actions/collection';
 import { Book } from '../models/book';
-
 
 @Injectable()
 export class CollectionEffects {
@@ -46,7 +45,7 @@ export class CollectionEffects {
       this.db.query('books')
         .toArray()
         .map((books: Book[]) => new collection.LoadSuccessAction(books))
-        .catch(error => of(new collection.LoadFailAction(error)))
+        .catch(error => of(new collection.LoadFailAction(error))),
     );
 
   @Effect()
@@ -54,21 +53,21 @@ export class CollectionEffects {
     .ofType(collection.ADD_BOOK)
     .map((action: collection.AddBookAction) => action.payload)
     .mergeMap(book =>
-      this.db.insert('books', [ book ])
+      this.db.insert('books', [book])
         .map(() => new collection.AddBookSuccessAction(book))
-        .catch(() => of(new collection.AddBookFailAction(book)))
+        .catch(() => of(new collection.AddBookFailAction(book))),
     );
-
 
   @Effect()
   removeBookFromCollection$: Observable<Action> = this.actions$
     .ofType(collection.REMOVE_BOOK)
     .map((action: collection.RemoveBookAction) => action.payload)
     .mergeMap(book =>
-      this.db.executeWrite('books', 'delete', [ book.id ])
+      this.db.executeWrite('books', 'delete', [book.id])
         .map(() => new collection.RemoveBookSuccessAction(book))
-        .catch(() => of(new collection.RemoveBookFailAction(book)))
+        .catch(() => of(new collection.RemoveBookFailAction(book))),
     );
 
-    constructor(private actions$: Actions, private db: Database) { }
+  constructor(private actions$: Actions, private db: Database) {
+  }
 }

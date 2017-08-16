@@ -1,6 +1,5 @@
 import * as collection from '../actions/collection';
 
-
 export interface State {
   loaded: boolean;
   loading: boolean;
@@ -10,14 +9,14 @@ export interface State {
 const initialState: State = {
   loaded: false,
   loading: false,
-  ids: []
+  ids: [],
 };
 
 export function reducer(state = initialState, action: collection.Actions): State {
   switch (action.type) {
     case collection.LOAD: {
       return Object.assign({}, state, {
-        loading: true
+        loading: true,
       });
     }
 
@@ -27,7 +26,7 @@ export function reducer(state = initialState, action: collection.Actions): State
       return {
         loaded: true,
         loading: false,
-        ids: books.map(book => book.id)
+        ids: books.map(book => book.id),
       };
     }
 
@@ -40,7 +39,7 @@ export function reducer(state = initialState, action: collection.Actions): State
       }
 
       return Object.assign({}, state, {
-        ids: [ ...state.ids, book.id ]
+        ids: [...state.ids, book.id],
       });
     }
 
@@ -49,7 +48,7 @@ export function reducer(state = initialState, action: collection.Actions): State
       const book = action.payload;
 
       return Object.assign({}, state, {
-        ids: state.ids.filter(id => id !== book.id)
+        ids: state.ids.filter(id => id !== book.id),
       });
     }
 
@@ -58,7 +57,6 @@ export function reducer(state = initialState, action: collection.Actions): State
     }
   }
 }
-
 
 export const getLoaded = (state: State) => state.loaded;
 

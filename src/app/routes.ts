@@ -9,19 +9,19 @@ import { NotFoundPageComponent } from './containers/not-found-page';
 export const routes: Routes = [
   {
     path: '',
-    component: CollectionPageComponent
+    component: CollectionPageComponent,
   },
   {
     path: 'book/find',
-    component: FindBookPageComponent
+    component: FindBookPageComponent,
   },
   {
     path: 'book/:id',
-    canActivate: [ BookExistsGuard ],
-    component: ViewBookPageComponent
+    canActivate: [BookExistsGuard],
+    component: ViewBookPageComponent,
   },
   {
     path: '**',
-    component: NotFoundPageComponent
-  }
+    component: NotFoundPageComponent,
+  },
 ];

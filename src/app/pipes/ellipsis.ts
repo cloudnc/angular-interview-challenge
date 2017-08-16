@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-
 @Pipe({ name: 'bcEllipsis' })
 export class EllipsisPipe implements PipeTransform {
   transform(str: string, strLength: number = 250) {

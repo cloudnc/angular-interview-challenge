@@ -1,5 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'bc-nav-item',
@@ -10,11 +9,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       <span md-line class="secondary">{{ hint }}</span>
     </a>
   `,
-  styles: [`
+  styles: [
+    `
     .secondary {
       color: rgba(0, 0, 0, 0.54);
     }
-  `]
+  `,
+  ],
 })
 export class NavItemComponent {
   @Input() icon = '';

@@ -1,6 +1,6 @@
 import '@ngrx/core/add/operator/select';
 import 'rxjs/add/operator/map';
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
@@ -23,7 +23,7 @@ import * as book from '../actions/book';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <bc-selected-book-page></bc-selected-book-page>
-  `
+  `,
 })
 export class ViewBookPageComponent implements OnDestroy {
   actionsSubscription: Subscription;

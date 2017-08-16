@@ -16,7 +16,6 @@ import { ToolbarComponent } from './toolbar';
 
 import { PipesModule } from '../pipes';
 
-
 export const COMPONENTS = [
   BookAuthorsComponent,
   BookDetailComponent,
@@ -29,7 +28,6 @@ export const COMPONENTS = [
   ToolbarComponent,
 ];
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -39,6 +37,7 @@ export const COMPONENTS = [
     PipesModule,
   ],
   declarations: COMPONENTS,
-  exports: COMPONENTS
+  exports: COMPONENTS,
 })
-export class ComponentsModule { }
+export class ComponentsModule {
+}

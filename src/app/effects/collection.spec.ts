@@ -1,6 +1,6 @@
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
-import { EffectsTestingModule, EffectsRunner } from '@ngrx/effects/testing';
+import { EffectsRunner, EffectsTestingModule } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
 import { CollectionEffects } from './collection';
 import { Database } from '@ngrx/db';
@@ -11,28 +11,28 @@ import { Observable } from 'rxjs/Observable';
 describe('CollectionEffects', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [
-      EffectsTestingModule
+      EffectsTestingModule,
     ],
     providers: [
       CollectionEffects,
       {
         provide: Database,
-        useValue: jasmine.createSpyObj('database', ['open', 'query', 'insert', 'executeWrite'])
-      }
-    ]
+        useValue: jasmine.createSpyObj('database', ['open', 'query', 'insert', 'executeWrite']),
+      },
+    ],
   }));
 
   function setup() {
     return {
       db: TestBed.get(Database),
       runner: TestBed.get(EffectsRunner),
-      collectionEffects: TestBed.get(CollectionEffects)
+      collectionEffects: TestBed.get(CollectionEffects),
     };
   }
 
   describe('openDB$', () => {
     it('should call db.open when initially subscribed to', () => {
-      const {db, collectionEffects} = setup();
+      const { db, collectionEffects } = setup();
       collectionEffects.openDB$.subscribe();
       expect(db.open).toHaveBeenCalledWith('books_app');
     });
@@ -40,10 +40,10 @@ describe('CollectionEffects', () => {
 
   describe('loadCollection$', () => {
     it('should return a collection.LoadSuccessAction, with the books, on success', () => {
-      const book1 = {id: '111', volumeInfo: {}} as Book;
-      const book2 = {id: '222', volumeInfo: {}} as Book;
+      const book1 = { id: '111', volumeInfo: {} } as Book;
+      const book2 = { id: '222', volumeInfo: {} } as Book;
 
-      const {db, runner, collectionEffects} = setup();
+      const { db, runner, collectionEffects } = setup();
 
       const booksObservable = Observable.of(book1, book2);
       db.query.and.returnValue(booksObservable);
@@ -58,7 +58,7 @@ describe('CollectionEffects', () => {
     });
 
     it('should return a collection.LoadFailAction, if the query throws', () => {
-      const {db, runner, collectionEffects} = setup();
+      const { db, runner, collectionEffects } = setup();
 
       const error = new Error('msg');
       db.query.and.returnValue(Observable.throw(error));
@@ -75,9 +75,9 @@ describe('CollectionEffects', () => {
 
   describe('addBookToCollection$', () => {
     it('should return a collection.AddBookSuccessAction, with the book, on success', () => {
-      const book = {id: '111', volumeInfo: {}} as Book;
+      const book = { id: '111', volumeInfo: {} } as Book;
 
-      const {db, runner, collectionEffects} = setup();
+      const { db, runner, collectionEffects } = setup();
       db.insert.and.returnValue(Observable.of({}));
 
       const expectedResult = new collection.AddBookSuccessAction(book);
@@ -91,9 +91,9 @@ describe('CollectionEffects', () => {
     });
 
     it('should return a collection.AddBookFailAction, with the book, when the db insert throws', () => {
-      const book = {id: '111', volumeInfo: {}} as Book;
+      const book = { id: '111', volumeInfo: {} } as Book;
 
-      const {db, runner, collectionEffects} = setup();
+      const { db, runner, collectionEffects } = setup();
       db.insert.and.returnValue(Observable.throw(new Error()));
 
       const expectedResult = new collection.AddBookFailAction(book);
@@ -108,9 +108,9 @@ describe('CollectionEffects', () => {
 
     describe('removeBookFromCollection$', () => {
       it('should return a collection.RemoveBookSuccessAction, with the book, on success', () => {
-        const book = {id: '111', volumeInfo: {}} as Book;
+        const book = { id: '111', volumeInfo: {} } as Book;
 
-        const {db, runner, collectionEffects} = setup();
+        const { db, runner, collectionEffects } = setup();
         db.executeWrite.and.returnValue(Observable.of({}));
 
         const expectedResult = new collection.RemoveBookSuccessAction(book);
@@ -124,9 +124,9 @@ describe('CollectionEffects', () => {
       });
 
       it('should return a collection.RemoveBookFailAction, with the book, when the db insert throws', () => {
-        const book = {id: '111', volumeInfo: {}} as Book;
+        const book = { id: '111', volumeInfo: {} } as Book;
 
-        const {db, runner, collectionEffects} = setup();
+        const { db, runner, collectionEffects } = setup();
         db.executeWrite.and.returnValue(Observable.throw(new Error()));
 
         const expectedResult = new collection.RemoveBookFailAction(book);

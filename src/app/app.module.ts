@@ -29,8 +29,6 @@ import { routes } from './routes';
 import { reducer } from './reducers';
 import { schema } from './db';
 
-
-
 @NgModule({
   imports: [
     CommonModule,
@@ -88,14 +86,15 @@ import { schema } from './db';
     SelectedBookPageComponent,
     ViewBookPageComponent,
     CollectionPageComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
   ],
   providers: [
     BookExistsGuard,
-    GoogleBooksService
+    GoogleBooksService,
   ],
   bootstrap: [
-    AppComponent
-  ]
+    AppComponent,
+  ],
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -7,14 +7,13 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/let';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
 import { GoogleBooksService } from '../services/google-books';
 import * as fromRoot from '../reducers';
 import * as book from '../actions/book';
-
 
 /**
  * Guards are hooks into the route resolution process, providing an opportunity
@@ -23,11 +22,10 @@ import * as book from '../actions/book';
  */
 @Injectable()
 export class BookExistsGuard implements CanActivate {
-  constructor(
-    private store: Store<fromRoot.State>,
-    private googleBooks: GoogleBooksService,
-    private router: Router
-  ) { }
+  constructor(private store: Store<fromRoot.State>,
+              private googleBooks: GoogleBooksService,
+              private router: Router) {
+  }
 
   /**
    * This method creates an observable that waits for the `loaded` property

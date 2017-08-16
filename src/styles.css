@@ -2,11 +2,11 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html {
-  -webkit-font-smoothing: antialiased;
-  -ms-overflow-style: none;
-  overflow: auto;
+    -webkit-font-smoothing: antialiased;
+    -ms-overflow-style: none;
+    overflow: auto;
 }

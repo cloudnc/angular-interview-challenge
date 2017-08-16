@@ -1,5 +1,5 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions, RequestMethod } from '@angular/http';
+import { inject, TestBed } from '@angular/core/testing';
+import { BaseRequestOptions, Http, RequestMethod, Response, ResponseOptions } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { GoogleBooksService } from './google-books';
 
@@ -17,14 +17,17 @@ describe('Service: GoogleBooks', () => {
           useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
             return new Http(backendInstance, defaultOptions);
           },
-          deps: [ MockBackend, BaseRequestOptions ]
+          deps: [MockBackend, BaseRequestOptions],
         },
-        GoogleBooksService
-      ]
+        GoogleBooksService,
+      ],
     });
   });
 
-  beforeEach(inject([GoogleBooksService, MockBackend], (googleBooksService: GoogleBooksService, mockBackend: MockBackend) => {
+  beforeEach(inject([
+    GoogleBooksService,
+    MockBackend,
+  ], (googleBooksService: GoogleBooksService, mockBackend: MockBackend) => {
     service = googleBooksService;
     backend = mockBackend;
   }));
@@ -32,14 +35,14 @@ describe('Service: GoogleBooks', () => {
   const data = {
     'title': 'Book Title',
     'author': 'John Smith',
-    'volumeId': '12345'
+    'volumeId': '12345',
   };
 
   const books = {
     items: [
-      {id: '12345', volumeInfo: {title: 'Title'}},
-      {id: '67890', volumeInfo: {title: 'Another Title'}}
-    ]
+      { id: '12345', volumeInfo: { title: 'Title' } },
+      { id: '67890', volumeInfo: { title: 'Another Title' } },
+    ],
   };
 
   const queryTitle = 'Book Title';
@@ -47,7 +50,7 @@ describe('Service: GoogleBooks', () => {
   it('should call the search api and return the search results', (done) => {
     backend.connections.subscribe((connection: MockConnection) => {
       const options = new ResponseOptions({
-        body: JSON.stringify(books)
+        body: JSON.stringify(books),
       });
       connection.mockRespond(new Response(options));
       expect(connection.request.method).toEqual(RequestMethod.Get);
@@ -65,7 +68,7 @@ describe('Service: GoogleBooks', () => {
   it('should retrieve the book from the volumeId', (done) => {
     backend.connections.subscribe((connection: MockConnection) => {
       const options = new ResponseOptions({
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
       connection.mockRespond(new Response(options));
       expect(connection.request.method).toEqual(RequestMethod.Get);
