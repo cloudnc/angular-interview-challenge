@@ -1,52 +1,49 @@
----
-# This repository is for version 2.x of the example application.
-# [Click here for the latest version (4.x)](https://github.com/ngrx/platform)
----
+# CloudNC Angular Interview Challenge
+(Fork of https://github.com/ngrx/example-app)
 
-# @ngrx example application
+## The Challenge
+Starting with the "Books" demo application for ngrx, add authenticated
+protection to the application so a user cannot access books or
+collections without valid credentials.
 
-Example application utilizing @ngrx libraries, showcasing common patterns and best practices.
-Take a look at the [live app](http://ngrx.github.io/example-app/).
+## Details
+* The following components should be protected
+(these are components that currenly have routes)
+  * `CollectionPageComponent` - as this is currently the root route (`path: ''`)
+  it should be moved to `/collection`
+  * `FindBookPageComponent`
+  * `ViewBookPageComponent`
+* If a user attempts to access a protected route, they should be
+redirected to the login page
+* Once the user is logged in, they should see the phrase
+`Logged In as ${username}` in the toolbar
+* If the user is logged in, and they load the `/` route, they should be
+redirected to the `/collection` page
+* The authentication service should simply be a stub that checks if the
+submitted password is `password`. For example:
+```ts
+  /**
+   * Asynchronously authenticate with a remote service
+   * @todo(*) actually authenticate
+   */
+  public authenticate(username: string, password: string): Observable<boolean> {
 
-This app is a book collection manager. Using the Google Books API, the user can search for
-books and add them to their collection. This application utilizes [@ngrx/db](https://github.com/ngrx/db)
-to persist the collection across sessions; [@ngrx/store](https://github.com/ngrx/store) to manage
-the state of the app and to cache requests made to the Google Books API;
-[@angular/router](https://github.com/angular/angular) to manage navigation between routes;
-[@ngrx/effects](https://github.com/ngrx/effects) to isolate side effects.
+    if (password === 'password') {
+      console.info(`Logged in as ${username}`);
+      return Observable.of(true);
+    }
 
-Built with [@angular/cli](https://github.com/angular/angular-cli)
+    console.info(`Access denied for ${username} (Incorrect password)`);
 
-### Included
- - [ngrx/store](https://github.com/ngrx/store) - RxJS powered state management for Angular apps, inspired by Redux
- - [ngrx/effects](https://github.com/ngrx/effects) - Side effect model for @ngrx/store
- - [angular/router](https://github.com/angular/angular) - Angular Router
- - [ngrx/db](https://github.com/ngrx/db) - RxJS powered IndexedDB for Angular apps
- - [ngrx/store-devtools](https://github.com/ngrx/store-devtools) - Instrumentation for @ngrx/store enabling time-travel debugging
- - [codewareio/ngrx-store-freeze](https://github.com/codewareio/ngrx-store-freeze) - A @ngrx/store meta reducer that prevents state from being mutated
- - [reselect](https://github.com/reactjs/reselect) - Selector library for Redux
-
-### Quick start
-
-```bash
-# clone the repo
-git clone https://github.com/ngrx/example-app.git
-
-
-# change directory to repo
-cd example-app
-
-# Use npm or yarn to install the dependencies:
-npm install
-
-# OR
-yarn
-
-# start the server
-ng serve
+    return Observable.of(false);
+  }
 ```
+* The login state should be persisted to the browser database
+(see `src/app/effects/collection.ts` for an example) so page refreshes
+result in the user still being logged in
+* If the user attempts to visit a protected page, after they are
+redirected AND successfully log in, they should be redirected back to
+the page that they were first attempting to visit
 
-Navigate to [http://localhost:4200/](http://localhost:4200/) in your browser
-
-_NOTE:_ The above setup instructions assume you have added local npm bin folders to your path.
-If this is not the case you will need to install the Angular CLI globally.
+# Bonus! (if time allows)
+* Write tests for the service/guard/reducer/component

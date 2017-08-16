@@ -28,6 +28,8 @@ import { GoogleBooksService } from './services/google-books';
 import { routes } from './routes';
 import { reducer } from './reducers';
 import { schema } from './db';
+import { LoginComponent } from './login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -35,6 +37,7 @@ import { schema } from './db';
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
+    ReactiveFormsModule,
     ComponentsModule,
     RouterModule.forRoot(routes, { useHash: true }),
 
@@ -87,6 +90,7 @@ import { schema } from './db';
     ViewBookPageComponent,
     CollectionPageComponent,
     NotFoundPageComponent,
+    LoginComponent,
   ],
   providers: [
     BookExistsGuard,

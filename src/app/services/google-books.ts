@@ -20,4 +20,21 @@ export class GoogleBooksService {
     return this.http.get(`${this.API_PATH}/${volumeId}`)
       .map(res => res.json());
   }
+
+  /**
+   * Asynchronously authenticate with a remote service
+   * @todo(*) actually authenticate
+   */
+  public authenticate(username: string, password: string): Observable<boolean> {
+
+    if (password === 'password') {
+      console.info(`Logged in as ${username}`);
+      return Observable.of(true);
+    }
+
+    console.info(`Access denied for ${username} (Incorrect password)`);
+
+    return Observable.of(false);
+  }
+
 }

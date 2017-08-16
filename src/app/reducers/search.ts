@@ -12,6 +12,9 @@ const initialState: State = {
   query: '',
 };
 
+
+
+
 export function reducer(state = initialState, action: book.Actions): State {
   switch (action.type) {
     case book.SEARCH: {
